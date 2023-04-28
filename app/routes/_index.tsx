@@ -1,8 +1,10 @@
 import type {
+	HeadersFunction,
 	LoaderArgs,
 	SerializeFrom,
 	V2_HtmlMetaDescriptor,
 } from "@remix-run/cloudflare"
+import { json } from "@remix-run/cloudflare"
 import { Link, useLoaderData } from "@remix-run/react"
 import { UAParser } from "ua-parser-js"
 import * as Popover from "@radix-ui/react-popover"
@@ -21,6 +23,9 @@ export function meta(): V2_HtmlMetaDescriptor[] {
 		},
 	]
 }
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+	"Cache-Control": loaderHeaders.get("Cache-Control") ?? "max-age=604800",
+})
 
 export async function loader({ request, context }: LoaderArgs) {
 	const ua = request.headers.get("user-agent") ?? undefined
@@ -42,13 +47,18 @@ export async function loader({ request, context }: LoaderArgs) {
 
 	const { updaterSignatures, ...latestRelease } = release
 
-	return {
-		latestRelease,
-		changelogs: changelogs.map((changelog) => ({
-			...changelog,
-			content: compileMdToHtml(changelog.content),
-		})),
-	}
+	return json(
+		{
+			latestRelease,
+			changelogs: changelogs.map((changelog) => ({
+				...changelog,
+				content: compileMdToHtml(changelog.content),
+			})),
+		},
+		{
+			headers: { "Cache-Control": "max-age=604800" },
+		}
+	)
 }
 
 export default function Index() {
