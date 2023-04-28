@@ -1,0 +1,7 @@
+{
+	"jsxSingleQuote": true,
+	"semi": false,
+	"useTabs": true,
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"pluginSearchDirs": false
+}

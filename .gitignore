@@ -1,0 +1,8 @@
+node_modules
+
+/.cache
+/build/*.js
+/build/*.js.map
+/public/build
+.dev.vars
+.wrangler

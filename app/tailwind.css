@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: "Inter";
+		font-weight: 100 900;
+		font-display: block;
+		font-style: normal;
+		font-named-instance: "Regular";
+		src: url("/fonts/Inter-roman.var.woff2") format("woff2");
+	}
+	@font-face {
+		font-family: "Inter";
+		font-weight: 100 900;
+		font-display: block;
+		font-style: italic;
+		font-named-instance: "Italic";
+		src: url("/fonts/Inter-italic.var.woff2") format("woff2");
+	}
+}
+
+@layer components {
+	.typography {
+		color: theme(colors.gray.12);
+		font-size: theme(fontSize.sm);
+		line-height: theme(lineHeight.6);
+	}
+
+	/* Headings */
+	.typography h3 {
+		color: theme(colors.gray.12);
+		font-weight: theme(fontWeight.semibold);
+		font-size: theme(fontSize.base);
+		line-height: theme(lineHeight.6);
+		display: flex;
+		align-items: center;
+		column-gap: theme(gap.3);
+	}
+
+	.typography h3 > svg {
+		flex: none;
+		width: theme(width.4);
+		height: theme(height.4);
+	}
+
+	.typography h4 {
+		color: theme(colors.gray.12);
+		font-weight: theme(fontWeight.semibold);
+		font-size: theme(fontSize.sm);
+		line-height: theme(lineHeight.6);
+	}
+
+	/* Quotes */
+	.typography blockquote {
+		border-left: 3px solid theme(colors.gray.6);
+		padding-left: theme(padding.6);
+		color: theme(colors.gray.11);
+	}
+
+	/* Links */
+	.typography a:not(h2 a) {
+		font-weight: theme(fontWeight.semibold);
+		color: theme(colors.primary.9);
+		text-decoration: underline;
+		text-decoration-color: theme(colors.primary.7);
+		text-underline-offset: theme(textUnderlineOffset.2);
+		transition-property: color, text-decoration-color;
+		transition-duration: theme(transitionDuration.DEFAULT);
+		transition-timing-function: theme(transitionTimingFunction.DEFAULT);
+	}
+
+	.typography a:not(h2 a):hover {
+		color: theme(colors.primary.10);
+		text-decoration-color: theme(colors.primary.8);
+	}
+
+	/* Inline text */
+	.typography strong {
+		font-weight: theme(fontWeight.semibold);
+	}
+
+	.typography strong:not(a strong) {
+		color: theme(colors.gray.12);
+	}
+
+	.typography kbd {
+		display: inline-block;
+		border-radius: theme(borderRadius.DEFAULT);
+		background-color: theme(colors.gray.3);
+		padding: 0 theme(padding[1.5]);
+		font-family: theme(fontFamily.mono);
+		font-size: theme(fontSize.xs);
+		font-weight: 400;
+		line-height: theme(lineHeight.5);
+		color: theme(colors.gray.11);
+		box-shadow: inset 0 0 0 1px theme(colors.gray.6);
+	}
+
+	/* Lists */
+	.typography ul,
+	.typography ol {
+		padding-left: 1.375rem;
+	}
+
+	.typography ul {
+		list-style-type: disc;
+	}
+
+	.typography ol {
+		list-style-type: decimal;
+	}
+
+	.typography li {
+		padding-left: 0.625rem;
+	}
+
+	.typography li::marker {
+		color: theme(colors.gray.6);
+	}
+
+	.typography ol > li::marker {
+		font-size: theme(fontSize.xs);
+		font-weight: theme(fontWeight.semibold);
+	}
+
+	/* Spacing */
+	.typography > * {
+		margin-top: theme(margin.6);
+	}
+
+	.typography :is(h2, h3, h4, blockquote, pre, table) {
+		margin-top: theme(margin.8);
+	}
+
+	.typography hr {
+		margin-top: calc(theme(margin.16) - 1px);
+	}
+
+	.typography li {
+		margin-top: theme(margin.4);
+	}
+
+	.typography li > :is(p, ol, ul) {
+		margin-top: theme(margin.4);
+	}
+
+	.typography :is(h2, h3, h4) + * {
+		margin-top: theme(margin.4);
+	}
+
+	.typography :is(blockquote, pre, table) + * {
+		margin-top: theme(margin.8);
+	}
+
+	.typography hr + * {
+		margin-top: theme(margin.16);
+	}
+
+	.typography > :first-child,
+	li > :first-child {
+		margin-top: 0;
+	}
+}
