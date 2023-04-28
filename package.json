@@ -4,7 +4,7 @@
 	"scripts": {
 		"build": "remix build",
 		"dev:remix": "remix dev",
-		"dev:wrangler": "wrangler pages dev public --persist --r2=BUCKET",
+		"dev:wrangler": "wrangler pages dev public",
 		"dev": "remix build && run-p -l dev:*",
 		"validate": "run-p -lns typecheck lint",
 		"typecheck": "tsc",
