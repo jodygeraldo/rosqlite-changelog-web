@@ -35,10 +35,12 @@ export async function loader({ request, context }: LoaderArgs) {
 		osNameAsDefault = undefined
 	}
 
-	const [latestRelease, changelogs] = await Promise.all([
+	const [release, changelogs] = await Promise.all([
 		getLatestRelease(context.GITHUB_PAT, osNameAsDefault),
 		getChangelogs(context.GITHUB_PAT),
 	])
+
+	const { updaterSignatures, ...latestRelease } = release
 
 	return {
 		latestRelease,
@@ -51,7 +53,6 @@ export async function loader({ request, context }: LoaderArgs) {
 
 export default function Index() {
 	const { latestRelease, changelogs } = useLoaderData<typeof loader>()
-	console.log(changelogs[0].content)
 
 	return (
 		<>
@@ -261,7 +262,7 @@ function DownloadButtonGroup() {
 				className='rounded border border-gray-7 px-2.5 py-1.5 text-center text-sm font-semibold text-primary-12 transition-colors hover:border-gray-8 hover:bg-gray-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-8 active:bg-gray-5'
 				download
 			>
-				Download for {latestRelease.download.default.os}
+				Download for {latestRelease.download.default.name}
 			</a>
 
 			<Popover.Root>

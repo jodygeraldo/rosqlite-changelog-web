@@ -36,6 +36,23 @@ async function getLatestRelease(auth: string, osNameAsDefault = "Windows") {
 		throw new Error("Cannot find app assets")
 	}
 
+	const updaterSignatures: { name: string; content: string }[] = []
+	const [firstPlatform, secondPlatform, thirdPlatform] = await Promise.all(
+		data.assets
+			.filter(({ name }) => name.includes(".sig"))
+			.map(({ name, browser_download_url }) => {
+				updaterSignatures.push({
+					name,
+					content: "",
+				})
+				return fetch(browser_download_url)
+			})
+	)
+
+	updaterSignatures[0].content = await firstPlatform.text()
+	updaterSignatures[1].content = await secondPlatform.text()
+	updaterSignatures[2].content = await thirdPlatform.text()
+
 	const otherDownloadAssets = data.assets
 		.filter(
 			({ name }) =>
@@ -55,13 +72,15 @@ async function getLatestRelease(auth: string, osNameAsDefault = "Windows") {
 	return {
 		tag: data.tag_name,
 		tagUrl: data.html_url,
+		publishedAt: data.published_at,
 		download: {
 			default: {
-				os: osNameAsDefault,
+				name: osNameAsDefault,
 				url: defaultDownloadAssets.browser_download_url,
 			},
 			others: otherDownloadAssets,
 		},
+		updaterSignatures,
 	}
 }
 
